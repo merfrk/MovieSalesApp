@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainScreen: View {
-    
+    @StateObject private var cartViewModel = CartViewModel()
     var body: some View {
         TabView {
                     // 1. Tab: Anasayfa
@@ -29,6 +29,7 @@ struct MainScreen: View {
                             Label("Sepet", systemImage: "cart.fill")
                         }
                 }
+        .environmentObject(cartViewModel)
         
     }
         

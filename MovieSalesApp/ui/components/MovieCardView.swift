@@ -5,35 +5,35 @@
 //  Created by Omer on 20.09.2025.
 //
 
-// MovieCardView.swift
 import SwiftUI
 
 struct MovieCardView: View {
-    let movie: Movie // Bu View'a bir film nesnesi vereceğiz
+    let movie: Movie
     private let imageBaseUrl = "http://kasimadalan.pe.hu/movies/images/"
+    @EnvironmentObject var cartViewModel: CartViewModel
+        
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Film Afişi
+            
             AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(10)
             } placeholder: {
-                // Resim yüklenirken görünecek olan alan
+                
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(.gray.opacity(0.3))
-                    .aspectRatio(2/3, contentMode: .fit) // Afiş oranını koru
+                    .aspectRatio(2/3, contentMode: .fit)
             }
             .frame(maxWidth: .infinity)
             
-            // Film Adı
-            Text(movie.name!)
-                .font(.headline) // Daha belirgin bir font
-                .lineLimit(1) // İsim uzunsa tek satırda kalsın
             
-            // Puan ve Kategori
+            Text(movie.name!)
+                .font(.headline) 
+                .lineLimit(1)
+            
             HStack {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
@@ -48,15 +48,27 @@ struct MovieCardView: View {
             }
             .font(.subheadline)
             
-            // Fiyat
-            Text("\(movie.price!) TL")
-                .font(.title3)
-                .fontWeight(.bold)
-                .foregroundColor(Color(AppColors.primary)) // Kendi renklerinizden biri
+            
+            HStack{
+                Text("\(movie.price!) TL")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(AppColors.primary))
+                Spacer()
+                Button(){
+                    Task{
+                        await cartViewModel.addMovieToCart(movie: movie, amount: 1)
+                    }
+                } label:{
+                    Label("", systemImage: "cart.badge.plus")
+                        .tint(.black)
+                }
+            }
+            .background(Color(.systemGray6))
             
         }
         .padding(12)
-        .background(Color(.systemBackground)) // Açık/Koyu moda uyumlu arka plan
+        .background(Color(.systemBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
@@ -64,4 +76,5 @@ struct MovieCardView: View {
 
 #Preview {
     MovieCardView(movie: .example)
+        .environmentObject(CartViewModel())
 }

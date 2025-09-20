@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeScreen: View {
     
-    @ObservedObject var viewModel = HomeViewModel()
+    @StateObject var viewModel = HomeViewModel()
     let columns: [GridItem] = [
             GridItem(.adaptive(minimum: 160), spacing: 16)
         ]
@@ -20,7 +20,7 @@ struct HomeScreen: View {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.movies) { movie in
                             
-                            NavigationLink(destination: Text("Detay Sayfası: \(movie.name)")) {
+                            NavigationLink(destination: MovieDetailView(movie: movie)) {
                                 MovieCardView(movie: movie)
                             }
                             .buttonStyle(PlainButtonStyle())
