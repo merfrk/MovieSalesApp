@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct MovieSalesAppApp: App {
+    init(){
+        NavigationBarStyle.setupNavigationBar()
+        TabBarStyle.setupTabBar()
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainScreen()
         }
     }
 }
