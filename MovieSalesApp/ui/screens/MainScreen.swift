@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MainScreen: View {
     @StateObject private var cartViewModel = CartViewModel()
+    @StateObject private var favoritesViewModel = FavoritesViewModel()
+    @StateObject private var homeViewModel = HomeViewModel()
     var body: some View {
         TabView {
                     // 1. Tab: Anasayfa
@@ -30,7 +32,8 @@ struct MainScreen: View {
                         }
                 }
         .environmentObject(cartViewModel)
-        
+        .environmentObject(favoritesViewModel)
+        .environmentObject(homeViewModel)
     }
         
 }

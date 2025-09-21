@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    
-    @StateObject var viewModel = HomeViewModel()
+    @EnvironmentObject var cartViewModel: CartViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     let columns: [GridItem] = [
             GridItem(.adaptive(minimum: 160), spacing: 16)
         ]
@@ -18,7 +18,7 @@ struct HomeScreen: View {
             NavigationStack {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.movies) { movie in
+                        ForEach(homeViewModel.movies) { movie in
                             
                             NavigationLink(destination: MovieDetailView(movie: movie)) {
                                 MovieCardView(movie: movie)
@@ -31,7 +31,7 @@ struct HomeScreen: View {
                 .navigationTitle("Filmler")
                 .task {
                     // Ekran açıldığında filmleri yükle
-                    await viewModel.loadMovies()
+                    await homeViewModel.loadMovies()
                 }
             }
         }
@@ -41,4 +41,7 @@ struct HomeScreen: View {
 
 #Preview {
     HomeScreen()
+        .environmentObject(FavoritesViewModel())
+                .environmentObject(CartViewModel())
+                .environmentObject(HomeViewModel())
 }

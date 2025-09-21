@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 struct AppColors {
-    static let primary = Color("MainColor")
-    static let secondary = Color("Detail")
+    static let main = Color("MainColor")
+    static let detail = Color("Detail")
     static let background = Color("BackgroundColor")
     static let text = Color("TextColor")
     static let beige = Color("Beige")

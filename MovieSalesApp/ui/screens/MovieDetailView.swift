@@ -10,20 +10,35 @@ import SwiftUI
 struct MovieDetailView: View {
     let movie: Movie
     @EnvironmentObject var cartViewModel: CartViewModel
+    @EnvironmentObject var favoritesViewModel: FavoritesViewModel
     private let imageBaseUrl = "http://kasimadalan.pe.hu/movies/images/"
     @State private var orderAmount: Int = 1
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Film Afişi
-                AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    ProgressView()
-                        .frame(height: 300)
+                
+                ZStack(alignment: .topTrailing){
+                    AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(height: 300)
+                    }
+                    
+                    Button {
+                        favoritesViewModel.toggleFavorite(movie: movie)
+                    } label: {
+                        Image(systemName: favoritesViewModel.isFavorite(movie: movie) ? "heart.fill" : "heart")
+                            .font(.title2)
+                            .foregroundColor(AppColors.detail)
+                            .padding(8)
+                            .background(.thinMaterial)
+                            .clipShape(Circle())
+                    }
+                    .padding(8)
                 }
                 
                 VStack(alignment: .leading, spacing: 20) {
@@ -81,9 +96,9 @@ struct MovieDetailView: View {
                                 .font(.title)
                         }
                     }
-                    .tint(Color(AppColors.primary))
+                    .tint(Color(AppColors.main))
                     
-                    // Fiyat ve Sepete Ekle Butonu
+                    
                     HStack {
                         Text("\((movie.price!) * orderAmount) TL")
                             .font(.title)
@@ -101,7 +116,7 @@ struct MovieDetailView: View {
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()
-                                .background(Color(AppColors.primary))
+                                .background(Color(AppColors.main))
                                 .cornerRadius(12)
                         }
                     }
@@ -112,6 +127,7 @@ struct MovieDetailView: View {
         }
         .navigationTitle(movie.name!)
         .navigationBarTitleDisplayMode(.inline)
+        
     }
 }
 
@@ -119,5 +135,6 @@ struct MovieDetailView: View {
     NavigationStack{
         MovieDetailView(movie: .example)
             .environmentObject(CartViewModel())
+            .environmentObject(FavoritesViewModel())
     }
 }

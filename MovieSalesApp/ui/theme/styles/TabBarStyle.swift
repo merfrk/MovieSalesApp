@@ -20,8 +20,8 @@ struct TabBarStyle {
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
         
         
-        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(AppColors.primary)
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(AppColors.primary)]
+        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(AppColors.main)
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(AppColors.main)]
         
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance

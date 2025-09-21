@@ -11,27 +11,41 @@ struct MovieCardView: View {
     let movie: Movie
     private let imageBaseUrl = "http://kasimadalan.pe.hu/movies/images/"
     @EnvironmentObject var cartViewModel: CartViewModel
-        
-
+    @EnvironmentObject var favoritesViewModel: FavoritesViewModel
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             
-            AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(10)
-            } placeholder: {
+            ZStack(alignment: .topTrailing){
+                AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(10)
+                } placeholder: {
+                    
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundColor(.gray.opacity(0.3))
+                        .aspectRatio(2/3, contentMode: .fit)
+                }
+                .frame(maxWidth: .infinity)
                 
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(.gray.opacity(0.3))
-                    .aspectRatio(2/3, contentMode: .fit)
+                Button {
+                    favoritesViewModel.toggleFavorite(movie: movie)
+                } label: {
+                    Image(systemName: favoritesViewModel.isFavorite(movie: movie) ? "heart.fill" : "heart")
+                        .font(.title2)
+                        .foregroundColor(AppColors.detail)
+                        .padding(8)
+                        .background(.thinMaterial)
+                        .clipShape(Circle())
+                }
+                .padding(8)
             }
-            .frame(maxWidth: .infinity)
             
             
             Text(movie.name!)
-                .font(.headline) 
+                .font(.headline)
                 .lineLimit(1)
             
             HStack {
@@ -53,7 +67,7 @@ struct MovieCardView: View {
                 Text("\(movie.price!) TL")
                     .font(.title3)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(AppColors.primary))
+                    .foregroundColor(Color(AppColors.main))
                 Spacer()
                 Button(){
                     Task{
@@ -77,4 +91,5 @@ struct MovieCardView: View {
 #Preview {
     MovieCardView(movie: .example)
         .environmentObject(CartViewModel())
+        .environmentObject(FavoritesViewModel())
 }

@@ -90,7 +90,7 @@ struct CartScreen: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color(AppColors.primary))
+                                .background(Color(AppColors.main))
                                 .cornerRadius(12)
                         }
                     }
