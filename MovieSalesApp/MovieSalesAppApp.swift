@@ -16,6 +16,7 @@ struct MovieSalesAppApp: App {
     }
     var body: some Scene {
         WindowGroup {
+            
             MainScreen()
                 .tint(Color(AppColors.text))
         }

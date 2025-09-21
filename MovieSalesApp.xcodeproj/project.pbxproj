@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FC46F6282E809EC300330F86 /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = FC46F6272E809EC300330F86 /* DotLottie */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FC46F5132E7D55F400330F86 /* MovieSalesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieSalesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC46F6282E809EC300330F86 /* DotLottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = MovieSalesApp;
 			packageProductDependencies = (
+				FC46F6272E809EC300330F86 /* DotLottie */,
 			);
 			productName = MovieSalesApp;
 			productReference = FC46F5132E7D55F400330F86 /* MovieSalesApp.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = FC46F50A2E7D55F400330F86;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FC46F6262E809EC300330F86 /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FC46F5142E7D55F400330F86 /* Products */;
 			projectDirPath = "";
@@ -356,6 +365,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FC46F6262E809EC300330F86 /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FC46F6272E809EC300330F86 /* DotLottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC46F6262E809EC300330F86 /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			productName = DotLottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FC46F50B2E7D55F400330F86 /* Project object */;
 }

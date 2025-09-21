@@ -115,8 +115,9 @@ struct MovieDetailView: View {
                                     Text("Sepete eklendi")
                                         .font(.headline)
                                         .foregroundStyle(.green)
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.green)
+                                    
+                                    AnimationView(fileName: "success", isLooping: false)
+                                            .frame(width: 40, height: 40)
                                 }
                                 .transition(.opacity.combined(with: .scale))
                                 
@@ -124,10 +125,13 @@ struct MovieDetailView: View {
                                 Button {
                                     
                                     Task{
-                                        await cartViewModel.addMovieToCart(movie: movie, amount: orderAmount)
+                                        
                                         withAnimation {
                                             isShowingConfirmation = true
                                         }
+                                        
+                                        await cartViewModel.addMovieToCart(movie: movie, amount: orderAmount)
+                                        
                                         try? await Task.sleep(for: .seconds(2))
                                         withAnimation {
                                             isShowingConfirmation = false

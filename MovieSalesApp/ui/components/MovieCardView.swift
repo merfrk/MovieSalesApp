@@ -74,9 +74,8 @@ struct MovieCardView: View {
                     
                     Spacer()
                     
-                    Image(systemName: "checkmark")
-                        .font(.headline)
-                        .foregroundColor(.green)
+                    AnimationView(fileName: "success", isLooping: false)
+                            .frame(width: 40, height: 40)
                         .transition(.opacity.combined(with: .scale))
                 }
             } else{
@@ -90,10 +89,12 @@ struct MovieCardView: View {
                     
                     Button(){
                         Task{
-                            await cartViewModel.addMovieToCart(movie: movie, amount: 1)
+                            
                             withAnimation {
                                 isShowingConfirmation = true
                             }
+                            
+                            await cartViewModel.addMovieToCart(movie: movie, amount: 1)
                             
                             // 2 saniye bekle
                             try? await Task.sleep(for: .seconds(2))
