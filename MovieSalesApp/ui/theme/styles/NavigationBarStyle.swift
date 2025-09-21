@@ -23,6 +23,8 @@ struct NavigationBarStyle{
             .font: largeTitleFont
         ]
         
+        
+        
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance

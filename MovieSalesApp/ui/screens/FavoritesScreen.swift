@@ -19,6 +19,7 @@ struct FavoritesScreen: View {
         GridItem(.adaptive(minimum: 160), spacing: 16)
     ]
     
+    
     var body: some View {
         NavigationStack{
             ScrollView{

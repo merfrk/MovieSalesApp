@@ -10,15 +10,27 @@ import SwiftUI
 struct HomeScreen: View {
     @EnvironmentObject var cartViewModel: CartViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
+    @State private var searchText = ""
     let columns: [GridItem] = [
             GridItem(.adaptive(minimum: 160), spacing: 16)
         ]
+    
+    private var filteredMovies: [Movie] {
+            if searchText.isEmpty {
+                return homeViewModel.movies
+            } else {
+                
+                return homeViewModel.movies.filter { movie in
+                    movie.name?.localizedCaseInsensitiveContains(searchText) ?? false
+                }
+            }
+        }
     
     var body: some View {
             NavigationStack {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(homeViewModel.movies) { movie in
+                        ForEach(filteredMovies) { movie in
                             
                             NavigationLink(destination: MovieDetailView(movie: movie)) {
                                 MovieCardView(movie: movie)
@@ -33,6 +45,7 @@ struct HomeScreen: View {
                     // Ekran açıldığında filmleri yükle
                     await homeViewModel.loadMovies()
                 }
+                .searchable(text: $searchText, prompt: "Film adı ara")
             }
         }
     }
