@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 @main
 struct MovieSalesAppApp: App {
@@ -16,7 +17,7 @@ struct MovieSalesAppApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen()
-                .tint(Color(AppColors.text)) 
+                .tint(Color(AppColors.text))
         }
     }
 }

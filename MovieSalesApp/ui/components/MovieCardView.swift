@@ -20,7 +20,7 @@ struct MovieCardView: View {
                 CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
                         .cornerRadius(10)
                 } placeholder: {
                     
@@ -28,7 +28,7 @@ struct MovieCardView: View {
                         .foregroundColor(.gray.opacity(0.3))
                         .aspectRatio(2/3, contentMode: .fit)
                 }
-                .frame(maxWidth: .infinity)
+                
                 
                 Button {
                     favoritesViewModel.toggleFavorite(movie: movie)
@@ -44,9 +44,11 @@ struct MovieCardView: View {
             }
             
             
+            
             Text(movie.name!)
                 .font(.headline)
-                .lineLimit(1)
+                .lineLimit(2)
+                .frame(height: 40, alignment: .top)
             
             HStack {
                 Image(systemName: "star.fill")
@@ -62,6 +64,7 @@ struct MovieCardView: View {
             }
             .font(.subheadline)
             
+            Spacer()
             
             HStack{
                 Text("\(movie.price!) TL")
@@ -78,13 +81,14 @@ struct MovieCardView: View {
                         .tint(.black)
                 }
             }
-            .background(Color(.systemGray6))
+            
             
         }
         .padding(12)
-        .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .frame(height: 390) 
+                .background(Color(.systemBackground))
+                .cornerRadius(16)
+                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 
