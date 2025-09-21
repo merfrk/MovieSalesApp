@@ -11,6 +11,7 @@ import Foundation
 class HomeViewModel: ObservableObject {
     private let repo = MoviesRepository()
     @Published var movies = [Movie]()
+    @Published var selectedSortOption: SortOption = .name
     
     var allCategories: [String] {
             

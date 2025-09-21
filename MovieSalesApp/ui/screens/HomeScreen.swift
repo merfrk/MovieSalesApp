@@ -19,24 +19,36 @@ struct HomeScreen: View {
         GridItem(.adaptive(minimum: 160), spacing: 16)
     ]
     
-    private var filteredMovies: [Movie] {
-            var categoryFiltered: [Movie]
+    private var filteredAndSortedMovies: [Movie] {
+            var filtered: [Movie]
             
-            
+            // Önce kategoriye göre filtrele
             if selectedCategory == "Tümü" {
-                categoryFiltered = homeViewModel.movies
+                filtered = homeViewModel.movies
             } else {
-                categoryFiltered = homeViewModel.movies.filter { $0.category == selectedCategory }
+                filtered = homeViewModel.movies.filter { $0.category == selectedCategory }
             }
             
-            
-            if searchText.isEmpty {
-                return categoryFiltered
-            } else {
-                return categoryFiltered.filter { movie in
+            // Sonra arama metnine göre filtrele
+            if !searchText.isEmpty {
+                filtered = filtered.filter { movie in
                     movie.name?.localizedCaseInsensitiveContains(searchText) ?? false
                 }
             }
+            
+            // En son, seçili seçeneğe göre sırala
+            switch homeViewModel.selectedSortOption {
+            case .name:
+                filtered.sort { $0.name ?? "" < $1.name ?? "" }
+            case .priceAsc:
+                filtered.sort { $0.price ?? 0 < $1.price ?? 0 }
+            case .priceDesc:
+                filtered.sort { $0.price ?? 0 > $1.price ?? 0 }
+            case .ratingDesc:
+                filtered.sort { $0.rating ?? 0 > $1.rating ?? 0 }
+            }
+            
+            return filtered
         }
     
     var body: some View {
@@ -45,7 +57,7 @@ struct HomeScreen: View {
                             HStack(spacing: 12) {
                                 ForEach(homeViewModel.allCategories, id: \.self) { category in
                                     Button {
-                                        // Tıklandığında seçili kategoriyi güncelle
+                                        
                                         selectedCategory = category
                                     } label: {
                                         Text(category)
@@ -53,7 +65,7 @@ struct HomeScreen: View {
                                             .fontWeight(.semibold)
                                             .padding(.vertical, 8)
                                             .padding(.horizontal, 16)
-                                            // Seçili olan kategori farklı görünsün
+                                            
                                             .background(selectedCategory == category ? Color(AppColors.main) : Color.gray.opacity(0.2))
                                             .foregroundColor(selectedCategory == category ? .white : Color(AppColors.text))
                                             .clipShape(Capsule())
@@ -66,7 +78,7 @@ struct HomeScreen: View {
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(filteredMovies) { movie in
+                    ForEach(filteredAndSortedMovies) { movie in
                         
                         NavigationLink(destination: MovieDetailView(movie: movie)) {
                             MovieCardView(movie: movie)
@@ -78,10 +90,22 @@ struct HomeScreen: View {
             }
             .navigationTitle("Filmler")
             .task {
-                // Ekran açıldığında filmleri yükle
                 await homeViewModel.loadMovies()
             }
             .searchable(text: $searchText, prompt: "Film adı ara")
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Menu{
+                        Picker("Sırala", selection: $homeViewModel.selectedSortOption){
+                            ForEach(SortOption.allCases){ option in
+                                Text(option.rawValue).tag(option)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                    }
+                }
+            }
         }
     }
 }
