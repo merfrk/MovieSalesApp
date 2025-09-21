@@ -17,7 +17,7 @@ struct MovieCardView: View {
         VStack(alignment: .leading, spacing: 8) {
             
             ZStack(alignment: .topTrailing){
-                AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
+                CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)

@@ -19,7 +19,7 @@ struct MovieDetailView: View {
             VStack(alignment: .leading, spacing: 16) {
                 
                 ZStack(alignment: .topTrailing){
-                    AsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
+                    CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fit)
