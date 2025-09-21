@@ -12,6 +12,7 @@ struct MovieCardView: View {
     private let imageBaseUrl = "http://kasimadalan.pe.hu/movies/images/"
     @EnvironmentObject var cartViewModel: CartViewModel
     @EnvironmentObject var favoritesViewModel: FavoritesViewModel
+    @State private var isShowingConfirmation = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -66,29 +67,62 @@ struct MovieCardView: View {
             
             Spacer()
             
-            HStack{
-                Text("\(movie.price!) TL")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(AppColors.main))
-                Spacer()
-                Button(){
-                    Task{
-                        await cartViewModel.addMovieToCart(movie: movie, amount: 1)
-                    }
-                } label:{
-                    Label("", systemImage: "cart.badge.plus")
-                        .tint(.black)
+            if isShowingConfirmation{
+                HStack{
+                    Text("Sepete eklendi")
+                        .foregroundStyle(.green)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "checkmark")
+                        .font(.headline)
+                        .foregroundColor(.green)
+                        .transition(.opacity.combined(with: .scale))
                 }
+            } else{
+                HStack{
+                    Text("\(movie.price!) TL")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(AppColors.main))
+                    Spacer()
+                    
+                    
+                    Button(){
+                        Task{
+                            await cartViewModel.addMovieToCart(movie: movie, amount: 1)
+                            withAnimation {
+                                isShowingConfirmation = true
+                            }
+                            
+                            // 2 saniye bekle
+                            try? await Task.sleep(for: .seconds(2))
+                            
+                            // Animasyonla birlikte eski haline dön
+                            withAnimation {
+                                isShowingConfirmation = false
+                            }
+                        }
+                    } label:{
+                        Label("", systemImage: "cart.badge.plus")
+                            .tint(AppColors.text)
+                    }
+                    .transition(.opacity.combined(with: .scale))
+                    .disabled(isShowingConfirmation)
+                }
+                .padding(.bottom, 8)
+                
             }
+            
+            
             
             
         }
         .padding(12)
-        .frame(height: 390) 
-                .background(Color(.systemBackground))
-                .cornerRadius(16)
-                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .frame(height: 390)
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 

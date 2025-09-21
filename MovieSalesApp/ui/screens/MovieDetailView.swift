@@ -13,6 +13,7 @@ struct MovieDetailView: View {
     @EnvironmentObject var favoritesViewModel: FavoritesViewModel
     private let imageBaseUrl = "http://kasimadalan.pe.hu/movies/images/"
     @State private var orderAmount: Int = 1
+    @State private var isShowingConfirmation = false
     
     var body: some View {
         ZStack{
@@ -108,25 +109,46 @@ struct MovieDetailView: View {
                                 .fontWeight(.heavy)
                             
                             Spacer()
-                            
-                            Button {
+                            if isShowingConfirmation {
                                 
-                                Task{
-                                    await cartViewModel.addMovieToCart(movie: movie, amount: orderAmount)
+                                HStack {
+                                    Text("Sepete eklendi")
+                                        .font(.headline)
+                                        .foregroundStyle(.green)
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
                                 }
-                            } label: {
-                                Label("Sepete Ekle", systemImage: "cart.badge.plus")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color(AppColors.main))
-                                    .cornerRadius(12)
+                                .transition(.opacity.combined(with: .scale))
+                                
+                            } else {
+                                Button {
+                                    
+                                    Task{
+                                        await cartViewModel.addMovieToCart(movie: movie, amount: orderAmount)
+                                        withAnimation {
+                                            isShowingConfirmation = true
+                                        }
+                                        try? await Task.sleep(for: .seconds(2))
+                                        withAnimation {
+                                            isShowingConfirmation = false
+                                        }
+                                    }
+                                } label: {
+                                    Label("Sepete Ekle", systemImage: "cart.badge.plus")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color(AppColors.main))
+                                        .cornerRadius(12)
+                                }
+                                .transition(.opacity.combined(with: .scale))
                             }
                         }
-                        
+                        .animation(.easeInOut, value: isShowingConfirmation)
                     }
                     .padding(.horizontal)
                 }
+                .padding(.bottom, 80)
             }
             .navigationTitle(movie.name!)
             .navigationBarTitleDisplayMode(.inline)
