@@ -9,9 +9,13 @@ import Foundation
 
 @MainActor
 class HomeViewModel: ObservableObject {
-    private let repo = MoviesRepository()
+    private let repo: MoviesRepositoryProtocol
     @Published var movies = [Movie]()
     @Published var selectedSortOption: SortOption = .name
+    
+    init(repo: MoviesRepositoryProtocol = MoviesRepository()){
+        self.repo = repo
+    }
     
     var allCategories: [String] {
             
@@ -26,10 +30,9 @@ class HomeViewModel: ObservableObject {
     
     func loadMovies() async{
         do {
-            movies = try await repo.loadMovies()
+            movies = try await self.repo.loadMovies()
         } catch  {
             movies = []
         }
     }
-    
 }

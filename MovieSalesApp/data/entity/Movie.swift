@@ -33,5 +33,7 @@ class Movie: Codable, Identifiable{
         self.description = description
     }
     
-    static let example = Movie(id: 1, name: "Batman", image: "batman.png", price: 20, category: "Action", rating: 9, year: 2008, director: "Nolan", description: "Lorem ipsum")
+    static let example = Movie(id: 1, name: "Batman", image: "batman.png", price: 28, category: "Action", rating: 9, year: 2008, director: "Nolan", description: "Lorem ipsum")
+    
+    static let example2 =  Movie(id:2, name: "Hobbit", image: "hobbit.png", price: 15, category: "Fantastic", rating: 7.8, year: 2012, director: "Peter Jackson", description: "Lorem ipsum")
 }

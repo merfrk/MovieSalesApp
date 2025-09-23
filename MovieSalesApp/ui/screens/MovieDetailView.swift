@@ -46,12 +46,12 @@ struct MovieDetailView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 20) {
-                        // Film Adı
+                        
                         Text(movie.name!)
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         
-                        // Kategori, Yıl ve Puan
+                        
                         HStack {
                             Text(movie.category!)
                                 .font(.headline)
@@ -65,7 +65,7 @@ struct MovieDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         
-                        // Yönetmen
+                        
                         Text("Yönetmen: \(movie.director!)")
                             .font(.body)
                         

@@ -11,9 +11,11 @@ import SwiftUI
 @MainActor
 class FavoritesViewModel: ObservableObject{
     @Published private var favoriteMovieIds: Set<Int> = []
-    private let userDefaultsKey = "favoriteMoviesKey"
+    let userDefaultsKey = "favoriteMoviesKey"
+    private let defaults: UserDefaults
     
-    init(){
+    init(defaults: UserDefaults = .standard){
+        self.defaults = defaults
         loadFavorites()
     }
     
@@ -33,15 +35,15 @@ class FavoritesViewModel: ObservableObject{
         }
     
     private func loadFavorites() {
-            let defaults = UserDefaults.standard
+            
             if let savedFavorites = defaults.array(forKey: userDefaultsKey) as? [Int] {
-                // Okuduğumuz diziyi, hızlı arama için Set yapısına dönüştürüyoruz.
+                
                 self.favoriteMovieIds = Set(savedFavorites)
                 print("\(savedFavorites.count) favori UserDefaults'tan yüklendi.")
             }
         }
     private func saveFavorites() {
-            let defaults = UserDefaults.standard
+            
             let favoritesArray = Array(self.favoriteMovieIds)
             defaults.set(favoritesArray, forKey: userDefaultsKey)
             print("\(favoritesArray.count) favori UserDefaults'a kaydedildi.")

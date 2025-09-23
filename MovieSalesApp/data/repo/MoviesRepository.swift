@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MoviesRepository{
+class MoviesRepository: MoviesRepositoryProtocol{
     private let baseUrl = "http://kasimadalan.pe.hu/movies/"
     private let userName = "omerartan"
     
@@ -24,46 +24,6 @@ class MoviesRepository{
         return movieResponse.movies ?? []
     }
     
-//    func addToCart(movie: Movie, orderAmount: Int) async throws -> Bool {
-//            let endpoint = "insertMovie.php"
-//            guard let url = URL(string: "\(baseUrl)\(endpoint)") else {
-//                throw URLError(.badURL)
-//            }
-//            
-//            var request = URLRequest(url: url)
-//            request.httpMethod = "POST"
-//            
-//            let parameters: [String: Any] = [
-//                "name": movie.name!,
-//                "image": movie.image!,
-//                "price": movie.price!,
-//                "category": movie.category!,
-//                "rating": movie.rating!,
-//                "year": movie.year!,
-//                "director": movie.director!,
-//                "description": movie.description!,
-//                "orderAmount": orderAmount,
-//                "userName": userName
-//            ]
-//            
-//            request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
-//            
-//        let (data, _) = try await URLSession.shared.data(for: request)
-//            
-//
-//            
-//            
-//            let serverResponse = try JSONDecoder().decode(ServerResponse.self, from: data)
-//            
-//            
-//            if serverResponse.success == 1 {
-//                return true
-//            } else {
-//                
-//                print("Sunucu Hatası: \(serverResponse.message)")
-//                return false
-//            }
-//        }
     
     func addToCart(movie: Movie, orderAmount: Int) async throws -> Bool {
             let endpoint = "insertMovie.php"

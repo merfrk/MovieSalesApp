@@ -96,10 +96,10 @@ struct MovieCardView: View {
                             
                             await cartViewModel.addMovieToCart(movie: movie, amount: 1)
                             
-                            // 2 saniye bekle
+                            
                             try? await Task.sleep(for: .seconds(2))
                             
-                            // Animasyonla birlikte eski haline dön
+                            
                             withAnimation {
                                 isShowingConfirmation = false
                             }
