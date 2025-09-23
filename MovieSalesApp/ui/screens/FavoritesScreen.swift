@@ -52,6 +52,7 @@ struct FavoritesScreen: View {
                     }
                 }
                 .padding(.top, 16)
+                .padding(.bottom, 80)
             }
             .navigationTitle("Favoriler")
         }

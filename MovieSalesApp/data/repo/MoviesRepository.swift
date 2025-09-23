@@ -34,19 +34,18 @@ class MoviesRepository: MoviesRepositoryProtocol{
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            // 1. ADIM: İçerik tipini doğru formata ayarlıyoruz.
+            
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             
-            // 2. ADIM: Tüm parametreleri "anahtar1=değer1&anahtar2=değer2&..." formatında bir string'e çeviriyoruz.
-            // Bu, JSONSerialization'dan farklıdır.
+          
             var components = URLComponents()
             components.queryItems = [
                 URLQueryItem(name: "name", value: movie.name),
                 URLQueryItem(name: "image", value: movie.image),
-                URLQueryItem(name: "price", value: String(movie.price!)),
+                URLQueryItem(name: "price", value: String(movie.price)),
                 URLQueryItem(name: "category", value: movie.category),
-                URLQueryItem(name: "rating", value: String(movie.rating!)),
-                URLQueryItem(name: "year", value: String(movie.year!)),
+                URLQueryItem(name: "rating", value: String(movie.rating)),
+                URLQueryItem(name: "year", value: String(movie.year)),
                 URLQueryItem(name: "director", value: movie.director),
                 URLQueryItem(name: "description", value: movie.description),
                 URLQueryItem(name: "orderAmount", value: String(orderAmount)),
@@ -90,11 +89,11 @@ class MoviesRepository: MoviesRepositoryProtocol{
                 let response = try JSONDecoder().decode(CartResponse.self, from: data)
                 return response.movieCart
             } catch {
-                // HATA OLUŞTUĞUNDA, GELEN VERİNİN İÇERİĞİNİ YAZDIR
+                
                 if let jsonString = String(data: data, encoding: .utf8) {
                     print("GELEN HATALI JSON: \(jsonString)")
                 }
-                // ORİJİNAL HATAYI YUKARIYA FIRLATMAYA DEVAM ET
+                
                 throw error
             }
                 
@@ -115,7 +114,7 @@ class MoviesRepository: MoviesRepositoryProtocol{
             let bodyString = "cartId=\(cartId)&userName=\(userName)"
             request.httpBody = bodyString.data(using: .utf8)
             
-            // Sunucuya verinin formatını bildirmek için header ekliyoruz.
+            
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             
             

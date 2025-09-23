@@ -23,7 +23,7 @@ struct MovieDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     
                     ZStack(alignment: .topTrailing){
-                        CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
+                        CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image)")) { image in
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -47,18 +47,18 @@ struct MovieDetailView: View {
                     
                     VStack(alignment: .leading, spacing: 20) {
                         
-                        Text(movie.name!)
+                        Text(movie.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         
                         
                         HStack {
-                            Text(movie.category!)
+                            Text(movie.category)
                                 .font(.headline)
                             Spacer()
-                            Label(String(format: "%.1f", movie.rating!), systemImage: "star.fill")
+                            Label(String(format: "%.1f", movie.rating), systemImage: "star.fill")
                                 .foregroundColor(.yellow)
-                            Text("(\(movie.year!.formatted(.number.grouping(.never))))")
+                            Text("(\(movie.year.formatted(.number.grouping(.never))))")
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color(AppColors.text))
                         }
@@ -66,7 +66,7 @@ struct MovieDetailView: View {
                         .foregroundColor(.secondary)
                         
                         
-                        Text("Yönetmen: \(movie.director!)")
+                        Text("Yönetmen: \(movie.director)")
                             .font(.body)
                         
                         
@@ -104,7 +104,7 @@ struct MovieDetailView: View {
                         
                         
                         HStack {
-                            Text("\((movie.price!) * orderAmount) TL")
+                            Text("\((movie.price) * orderAmount) TL")
                                 .font(.title)
                                 .fontWeight(.heavy)
                             
@@ -154,7 +154,7 @@ struct MovieDetailView: View {
                 }
                 .padding(.bottom, 80)
             }
-            .navigationTitle(movie.name!)
+            .navigationTitle(movie.name)
             .navigationBarTitleDisplayMode(.inline)
         }
         

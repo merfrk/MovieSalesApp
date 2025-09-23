@@ -20,15 +20,15 @@ class FavoritesViewModel: ObservableObject{
     }
     
     func isFavorite(movie: Movie) -> Bool {
-            favoriteMovieIds.contains(movie.id!)
+            favoriteMovieIds.contains(movie.id)
         }
     func toggleFavorite(movie: Movie) {
             if isFavorite(movie: movie) {
-                favoriteMovieIds.remove(movie.id!)
-                print("'\(movie.name!)' favorilerden kaldırıldı.")
+                favoriteMovieIds.remove(movie.id)
+                print("'\(movie.name)' favorilerden kaldırıldı.")
             } else {
-                favoriteMovieIds.insert(movie.id!)
-                print("'\(movie.name!)' favorilere eklendi.")
+                favoriteMovieIds.insert(movie.id)
+                print("'\(movie.name)' favorilere eklendi.")
             }
             
             saveFavorites()

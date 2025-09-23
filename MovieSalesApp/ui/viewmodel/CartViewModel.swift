@@ -10,9 +10,10 @@ import SwiftUI
 @MainActor
 class CartViewModel: ObservableObject{
     @Published var cartItems: [CartItem] = []
-    private var repo = MoviesRepository()
+    private var repo: MoviesRepositoryProtocol
     
-    init(){
+    init(repo: MoviesRepositoryProtocol = MoviesRepository()){
+        self.repo = repo
         Task{
             await loadCart()
         }
@@ -25,7 +26,7 @@ class CartViewModel: ObservableObject{
     
     func loadCart() async{
         do {
-            cartItems = try await repo.getMovieCart()
+            cartItems = try await self.repo.getMovieCart()
         } catch  {
             print("An error occured while loading the cart \(error.localizedDescription)")
         }
@@ -37,10 +38,10 @@ class CartViewModel: ObservableObject{
         if let existingCartItem = cartItems.first(where: { $0.name == movie.name }) {
             
             
-            print("'\(movie.name!)' zaten sepette, miktar güncelleniyor...")
+            print("'\(movie.name)' zaten sepette, miktar güncelleniyor...")
             do {
                 
-                let deleteSuccess = try await repo.deleteMovieFromCart(cartId: existingCartItem.cartId)
+                let deleteSuccess = try await self.repo.deleteMovieFromCart(cartId: existingCartItem.cartId)
                 
                 guard deleteSuccess else {
                     print("Güncelleme için eski kayıt silinemedi.")
@@ -48,10 +49,10 @@ class CartViewModel: ObservableObject{
                 }
                 
                 let newAmount = existingCartItem.orderAmount + amount
-                let addSuccess = try await repo.addToCart(movie: movie, orderAmount: newAmount)
+                let addSuccess = try await self.repo.addToCart(movie: movie, orderAmount: newAmount)
                 
                 if addSuccess {
-                    print("'\(movie.name!)' filminin yeni miktarı: \(newAmount)")
+                    print("'\(movie.name)' filminin yeni miktarı: \(newAmount)")
                 }
                 
             } catch {
@@ -60,9 +61,9 @@ class CartViewModel: ObservableObject{
             
         } else {
             
-            print("'\(movie.name!)' ilk kez sepete ekleniyor...")
+            print("'\(movie.name)' ilk kez sepete ekleniyor...")
             do {
-                let success = try await repo.addToCart(movie: movie, orderAmount: amount)
+                let success = try await self.repo.addToCart(movie: movie, orderAmount: amount)
                 if !success {
                     print("Sunucu eklemeyi reddetti.")
                 }
@@ -78,7 +79,7 @@ class CartViewModel: ObservableObject{
     func deleteFromCart(cartItem: CartItem) async{
         do {
             
-            let success = try await repo.deleteMovieFromCart(cartId: cartItem.cartId)
+            let success = try await self.repo.deleteMovieFromCart(cartId: cartItem.cartId)
             
             if success {
                 

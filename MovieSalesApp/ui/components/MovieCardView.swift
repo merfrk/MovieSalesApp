@@ -18,7 +18,7 @@ struct MovieCardView: View {
         VStack(alignment: .leading, spacing: 8) {
             
             ZStack(alignment: .topTrailing){
-                CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image!)")) { image in
+                CachedAsyncImage(url: URL(string: "\(imageBaseUrl)\(movie.image)")) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -46,7 +46,7 @@ struct MovieCardView: View {
             
             
             
-            Text(movie.name!)
+            Text(movie.name)
                 .font(.headline)
                 .lineLimit(2)
                 .frame(height: 40, alignment: .top)
@@ -54,9 +54,9 @@ struct MovieCardView: View {
             HStack {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
-                Text(String(format: "%.1f", movie.rating!))
+                Text(String(format: "%.1f", movie.rating))
                 Spacer()
-                Text(movie.category!)
+                Text(movie.category)
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -80,7 +80,7 @@ struct MovieCardView: View {
                 }
             } else{
                 HStack{
-                    Text("\(movie.price!) TL")
+                    Text("\(movie.price) TL")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(Color(AppColors.main))

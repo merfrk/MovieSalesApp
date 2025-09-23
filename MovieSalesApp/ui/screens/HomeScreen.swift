@@ -12,44 +12,12 @@ struct HomeScreen: View {
     @EnvironmentObject var homeViewModel: HomeViewModel
     @EnvironmentObject var favoritesViewModel: FavoritesViewModel
     
-    @State private var searchText = ""
-    @State private var selectedCategory = "Tümü"
+    
     
     let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 160), spacing: 16)
     ]
     
-    private var filteredAndSortedMovies: [Movie] {
-        var filtered: [Movie]
-        
-        // Önce kategoriye göre filtrele
-        if selectedCategory == "Tümü" {
-            filtered = homeViewModel.movies
-        } else {
-            filtered = homeViewModel.movies.filter { $0.category == selectedCategory }
-        }
-        
-        // Sonra arama metnine göre filtrele
-        if !searchText.isEmpty {
-            filtered = filtered.filter { movie in
-                movie.name?.localizedCaseInsensitiveContains(searchText) ?? false
-            }
-        }
-        
-        // En son, seçili seçeneğe göre sırala
-        switch homeViewModel.selectedSortOption {
-        case .name:
-            filtered.sort { $0.name ?? "" < $1.name ?? "" }
-        case .priceAsc:
-            filtered.sort { $0.price ?? 0 < $1.price ?? 0 }
-        case .priceDesc:
-            filtered.sort { $0.price ?? 0 > $1.price ?? 0 }
-        case .ratingDesc:
-            filtered.sort { $0.rating ?? 0 > $1.rating ?? 0 }
-        }
-        
-        return filtered
-    }
     
     var body: some View {
         NavigationStack {
@@ -63,7 +31,7 @@ struct HomeScreen: View {
                             ForEach(homeViewModel.allCategories, id: \.self) { category in
                                 Button {
                                     
-                                    selectedCategory = category
+                                    homeViewModel.selectedCategory = category
                                 } label: {
                                     Text(category)
                                         .font(.subheadline)
@@ -71,8 +39,8 @@ struct HomeScreen: View {
                                         .padding(.vertical, 8)
                                         .padding(.horizontal, 16)
                                     
-                                        .background(selectedCategory == category ? Color(AppColors.main) : Color.gray.opacity(0.2))
-                                        .foregroundColor(selectedCategory == category ? .white : Color(AppColors.text))
+                                        .background(homeViewModel.selectedCategory == category ? Color(AppColors.main) : Color.gray.opacity(0.2))
+                                        .foregroundColor(homeViewModel.selectedCategory == category ? .white : Color(AppColors.text))
                                         .clipShape(Capsule())
                                 }
                             }
@@ -83,7 +51,7 @@ struct HomeScreen: View {
                     
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 16) {
-                            ForEach(filteredAndSortedMovies) { movie in
+                            ForEach(homeViewModel.filteredAndSortedMovies) { movie in
                                 
                                 NavigationLink(destination: MovieDetailView(movie: movie)) {
                                     MovieCardView(movie: movie)
@@ -97,7 +65,7 @@ struct HomeScreen: View {
                     .task {
                         await homeViewModel.loadMovies()
                     }
-                    .searchable(text: $searchText, prompt: "Film adı ara")
+                    .searchable(text: $homeViewModel.searchText, prompt: "Film adı ara")
                     .toolbar{
                         ToolbarItem(placement: .navigationBarTrailing){
                             Menu{
@@ -112,7 +80,7 @@ struct HomeScreen: View {
                         }
                     }
                 }
-            } //
+            } 
         }
     }
 }
