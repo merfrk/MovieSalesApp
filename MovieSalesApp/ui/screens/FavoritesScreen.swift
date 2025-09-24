@@ -27,32 +27,35 @@ struct FavoritesScreen: View {
                     .ignoresSafeArea()
                 
                 ScrollView{
-                    if favoriteMovies.isEmpty{
-                        VStack {
-                            Spacer()
-                            Image(systemName: "heart.slash")
-                                .font(.largeTitle)
-                                .foregroundColor(.secondary)
-                            Text("Henüz favori filminiz yok.")
-                                .bodyFont()
-                                .padding(.top)
-                            Spacer()
-                        }
-                        .frame(height: 500)
-                    } else{
-                        LazyVGrid(columns: columns, spacing: 16) {
-                            ForEach(favoriteMovies) { movie in
-                                NavigationLink(destination: MovieDetailView(movie: movie)) {
-                                    MovieCardView(movie: movie)
-                                }
-                                .buttonStyle(PlainButtonStyle())
+                    VStack{
+                        if favoriteMovies.isEmpty{
+                            VStack {
+                                Spacer()
+                                Image(systemName: "heart.slash")
+                                    .font(.largeTitle)
+                                    .foregroundColor(.secondary)
+                                Text("Henüz favori filminiz yok.")
+                                    .bodyFont()
+                                    .padding(.top)
+                                Spacer()
                             }
+                            .frame(height: 500)
+                        } else{
+                            LazyVGrid(columns: columns, spacing: 16) {
+                                ForEach(favoriteMovies) { movie in
+                                    NavigationLink(destination: MovieDetailView(movie: movie)) {
+                                        MovieCardView(movie: movie)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
                     }
+                    .padding(.bottom, 40)
                 }
                 .padding(.top, 16)
-                .padding(.bottom, 80)
+                
             }
             .navigationTitle("Favoriler")
         }
