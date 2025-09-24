@@ -6,6 +6,6 @@
 //
 
 import Foundation
-class MovieResponse: Codable{
-    var movies: [Movie]?
+struct MovieResponse: Codable{
+    var movies: [Movie]
 }

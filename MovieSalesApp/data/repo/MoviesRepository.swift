@@ -21,7 +21,7 @@ class MoviesRepository: MoviesRepositoryProtocol{
         let (data,_) = try await URLSession.shared.data(from: url)
         let movieResponse = try JSONDecoder().decode(MovieResponse.self, from: data)
         
-        return movieResponse.movies ?? []
+        return movieResponse.movies
     }
     
     
@@ -52,10 +52,9 @@ class MoviesRepository: MoviesRepositoryProtocol{
                 URLQueryItem(name: "userName", value: userName)
             ]
             
-            // URLComponents, boşluk gibi özel karakterleri otomatik olarak doğru formata çevirir (%20 gibi).
+            
             request.httpBody = components.query?.data(using: .utf8)
             
-            // 3. ADIM: İsteği gönderip cevabı işliyoruz (bu kısım aynı kalıyor).
             let (data, _) = try await URLSession.shared.data(for: request)
             
             let serverResponse = try JSONDecoder().decode(ServerResponse.self, from: data)

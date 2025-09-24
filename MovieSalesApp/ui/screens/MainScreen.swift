@@ -13,19 +13,16 @@ struct MainScreen: View {
     @StateObject private var homeViewModel = HomeViewModel()
     var body: some View {
         TabView {
-                    // 1. Tab: Anasayfa
                     HomeScreen()
                         .tabItem {
                             Label("Anasayfa", systemImage: "house.fill")
                         }
                     
-                    // 2. Tab: Favoriler
                     FavoritesScreen()
                         .tabItem {
                             Label("Favoriler", systemImage: "heart.fill")
                         }
                     
-                    // 3. Tab: Sepet
                     CartScreen()
                         .tabItem {
                             Label("Sepet", systemImage: "cart.fill")

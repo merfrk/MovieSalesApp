@@ -78,7 +78,6 @@ final class HomeViewModelTests: XCTestCase {
         guard let categoryToTest = viewModel.allCategories.first(where: { $0 != "Tümü" }) else {
                throw XCTSkip("Testin devam etmesi için sunucudan test edilecek bir kategori bulunamadı.")
            }
-           print("ℹ️ Kategori filtresi için test ediliyor: \(categoryToTest)")
         viewModel.selectedCategory = categoryToTest
         
         
@@ -91,7 +90,6 @@ final class HomeViewModelTests: XCTestCase {
                throw XCTSkip("Arama testi için filtrelenmiş listede film bulunamadı.")
            }
            let movieNameToSearch = movieToSearch.name
-           print("ℹ️ Arama testi için kullanılıyor: \(movieNameToSearch)")
             
             
         viewModel.searchText = movieNameToSearch
