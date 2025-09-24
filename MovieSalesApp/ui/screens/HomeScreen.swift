@@ -26,32 +26,47 @@ struct HomeScreen: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 0){
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 12) {
-                            ForEach(homeViewModel.allCategories, id: \.self) { category in
-                                Button {
-                                    
+                    ScrollViewReader{ proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(homeViewModel.allCategories, id: \.self) { category in
+                                    Button {
                                         
-                                    
-                                        homeViewModel.selectedCategory = category
-                                    
-                                    
-                                } label: {
-                                    Text(category)
-                                        .font(.subheadline)
-                                        .fontWeight(.semibold)
-                                        .padding(.vertical, 8)
-                                        .padding(.horizontal, 16)
-                                    
-                                        .background(homeViewModel.selectedCategory == category ? Color(AppColors.main) : Color.gray.opacity(0.2))
-                                        .foregroundColor(homeViewModel.selectedCategory == category ? .white : Color(AppColors.text))
-                                        .clipShape(Capsule())
+                                        withAnimation{
+                                            if homeViewModel.selectedCategory == category {
+                                                homeViewModel.selectedCategory = "Tümü"
+                                            } else{
+                                                homeViewModel.selectedCategory = category
+                                            }
+                                        }
+                                        
+                                    } label: {
+                                        Text(category)
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 16)
+                                        
+                                            .background(homeViewModel.selectedCategory == category ? Color(AppColors.main) : Color.gray.opacity(0.2))
+                                            .foregroundColor(homeViewModel.selectedCategory == category ? .white : Color(AppColors.text))
+                                            .clipShape(Capsule())
+                                    }
+                                    .id(category)
                                 }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                        .onChange(of: homeViewModel.selectedCategory) { oldCategory, newCategory in
+                                                    
+                                                    if newCategory == "Tümü" {
+                                                       
+                                                        withAnimation {
+                                                            proxy.scrollTo("Tümü", anchor: .leading)
+                                                        }
+                                                    }
+                                                }
                     }
-                    .padding(.vertical, 8)
                     
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 16) {
