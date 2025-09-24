@@ -145,6 +145,7 @@ struct MovieDetailView: View {
                                         .background(Color(AppColors.main))
                                         .cornerRadius(12)
                                 }
+                                .accessibilityIdentifier("addToCart_button")
                                 .transition(.opacity.combined(with: .scale))
                             }
                         }

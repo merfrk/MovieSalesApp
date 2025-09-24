@@ -31,7 +31,11 @@ struct HomeScreen: View {
                             ForEach(homeViewModel.allCategories, id: \.self) { category in
                                 Button {
                                     
-                                    homeViewModel.selectedCategory = category
+                                        
+                                    
+                                        homeViewModel.selectedCategory = category
+                                    
+                                    
                                 } label: {
                                     Text(category)
                                         .font(.subheadline)
@@ -56,6 +60,7 @@ struct HomeScreen: View {
                                 NavigationLink(destination: MovieDetailView(movie: movie)) {
                                     MovieCardView(movie: movie)
                                 }
+                                .accessibilityIdentifier("movieCard_\(movie.name)")
                                 .buttonStyle(PlainButtonStyle())
                             }
                         }
